@@ -49,6 +49,77 @@
 >
 # \[ 2 \] IOT-Arduino-Pi5:
 > #### [541ML.ino](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/541ML.ino)      
+> **Connects the Arduino Giga R1 to Wifi**    
+> **Reads ambient and object temperatures**    
+> **Packs the temperatures as JSON**    
+> **Connects to the Raspberry Pi web server and publishes JSON formatted temperature readings to PHP script on Pi**    
+>> ```C++
+>> #include <WiFi.h>
+>> #include <Adafruit_MLX90614.h>
+>> #include "arduino_secrets.h"
+>> 
+>> Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+>> int status = WL_IDLE_STATUS;
+>> char ssid[] = SECRET_SSID; //sourced from "arduino_secrets.h"
+>> char pass[] = SECRET_PASS; //sourced from "arduino_secrets.h"
+>> char server[] = "192.168.1.104"; //server ip
+>> WiFiClient client; //create a client which can connect to server ip & port; WifiClient defined by client.connect()
+>> 
+>> void setup() {
+>>   //begin connect WiFi:
+>>   while (status != WL_CONNECTED) {
+>>     Serial.print("attempting connection to: ");
+>>     Serial.println(ssid);
+>>     status = WiFi.begin(ssid, pass); //WPA/2 network
+>>     delay(3000);
+>>   }
+>>   mlx.begin(); //start the sensors
+>> }
+>>
+>> void loop() {
+>>   WiFiClient client;
+>> 
+>>   float ambient = 0;
+>>   float object = 0;
+>>   //debug the raw sensor readings
+>>   ambient = mlx.readAmbientTempF();
+>>   Serial.println(ambient);
+>>   object = mlx.readObjectTempF();
+>>   Serial.println(object);
+>>   //stringify for concatenation in jsonData 
+>>   String ambientStr = String(ambient, 1);
+>>   String objectStr = String(object, 1);
+>>   //building the formated string
+>>   String jsonData = "{\"ambientTemp\":"+ ambientStr +",\"objectTemp\":"+ objectStr +"}";
+>>   Serial.println(jsonData); // debug format of json data string
+>>   size_t jsonLen = jsonData.length(); //get length of json data string as unsigned int
+>>   //using port 57391
+>>   if (client.connect(server, 57391)) {
+>>     Serial.println("conn success");
+>>     //client.print is how the data get's sent, like Serial.print, but over http to your pre-defined "char server[]" 
+>>     client.println("POST /Temp.php HTTP/1.1"); 
+>>     client.println("Host: 192.168.1.104"); //server ip
+>>     client.println("Content-Type: application/json");
+>>     client.print("Content-Length: "); //no `println`, the length below must be on same line
+>>     client.println(jsonLen); //length of json data being sent
+>>     client.println();//empty line = end-of-header
+>>     client.print(jsonData);//sends json
+>>     //timeout-wait for server response
+>>     unsigned long timeout = millis();
+>>     while (client.connected() && millis() - timeout < 5000) {
+>>       if (client.available()) {
+>>         String line = client.readStringUntil('\n');
+>>         Serial.println(line); //print server response
+>>         timeout = millis();
+>>       }
+>>     }
+>>     client.stop(); //close connection
+>>     Serial.println("conn closed");  
+>>
+>>   delay(10000); //10sec is very slow, decrease to measure and send more frequently 
+>>   }
+>> }
+>> ```
 > #### [Temp.php](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/Temp.php)       
 > #### [apache2.conf](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/apache2.conf)       
 > #### [arduino_secrets.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/arduino_secrets.h)      
@@ -62,7 +133,7 @@
 >> **Additionally, the Photon proved finicky when reading from the [ I<sup>2</sup>C ](https://i2cdevices.org/resources) : "[ Serial Bus ](https://en.wikipedia.org/wiki/I%C2%B2C)" [ MLX90614 ](https://www.amazon.com/dp/B0B63K5V7T?ref=ppx_yo2ov_dt_b_fed_asin_title).**  
 >>   
 >> Enter the Arduino Giga R1:
->>
+>> *image*
 >> 
 >> **<ins>Raspberry Pi 3b+ *and*  Pi 5</ins>:**  
 >>> **Ubuntu Server 24.10 "oracular"**  
