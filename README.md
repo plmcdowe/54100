@@ -1,5 +1,5 @@
 # Problem Statement:
-***Extend SQLite syntax to incorporate at least one ML predicate to enable outlier detection with open-source ML libraries.***     
+***Extend SQLite syntax to incorporate at least one ML predicate with open-source ML libraries.***     
 
 <b><ins>There are two efforts, broke into the separate directories</ins>:</b>    
 ### 1. 📂 [SQLite-ML-Files](https://github.com/plmcdowe/54100/tree/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files)
