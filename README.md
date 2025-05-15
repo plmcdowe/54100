@@ -2,7 +2,8 @@
 ### ***Extend SQLite syntax to incorporate at least one ML predicate to enable outlier detection with open-source ML libraries.***     
 #### <ins>There are two efforts, broke into the separate directories</ins>:    
 1. [SQLite-ML-Files](https://github.com/plmcdowe/54100/tree/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files)
-   - This directory contains all files necessary to extend SQLite syntax for numerical outlier detection and textual sentiment analysis.
+   - This directory contains all files necessary to extend SQLite syntax for:
+   numerical outlier detection and textual sentiment analysis.
    - SQLite-ML-Files is documented in this README first because it is the primary effort.
    - Shout out to 
 2. [IOT-Arduino-Pi5](https://github.com/plmcdowe/54100/tree/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5)
