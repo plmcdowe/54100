@@ -129,7 +129,8 @@
 > 
 >> **The orginal plan called for using a Particle Photon.** 
 >>   
->> **However, the Particle Cloud which receives and forwards `Particle.publish()` events will only forward to public hosts.**  
+>> **However, the Particle Cloud which receives and forwards `Particle.publish()` events,    
+>> will only forward to public hosts.**  
 >> **Additionally, the Photon proved finicky when reading from the [ I<sup>2</sup>C ](https://i2cdevices.org/resources) : "[ Serial Bus ](https://en.wikipedia.org/wiki/I%C2%B2C)" [ MLX90614 ](https://www.amazon.com/dp/B0B63K5V7T?ref=ppx_yo2ov_dt_b_fed_asin_title).**  
 >>   
 >> Enter the Arduino Giga R1:
