@@ -15,12 +15,12 @@
    - IOT-Arduino-Pi5 is documented after SQLite-ML-Files.
 
 # \[ 1 \] SQLite-ML-Files:
-> #### [ml_extension.c](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/ml_extension.c)    
-> #### [ml_module.py](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/ml_module.py)     
-> #### [shell.c](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/shell.c)     
-> #### [sqlite3](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3)     
-> #### [sqlite3.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3.h)     
-> #### [sqlite3ext.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3ext.h)
+> #### 📄 [ml_extension.c](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/ml_extension.c)    
+> #### 📄 [ml_module.py](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/ml_module.py)     
+> #### 📄 [shell.c](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/shell.c)     
+> #### 📄 [sqlite3](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3)     
+> #### 📄 [sqlite3.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3.h)     
+> #### 📄 [sqlite3ext.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files/sqlite3ext.h)
 > 
 > ## \[ 1.1 \] <ins>Local Ubuntu 24 Desktop with Python venv</ins>:
 >> **Dell laptop booting Ubuntu Desktop from external NVMe drive**
@@ -48,7 +48,7 @@
 >>> **tensorflow**    
 >
 # \[ 2 \] IOT-Arduino-Pi5:
-> #### [541ML.ino](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/541ML.ino)      
+> #### 📄 [541ML.ino](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/541ML.ino)      
 > **Connects the Arduino Giga R1 to Wifi**    
 > **Reads ambient and object temperatures**    
 > **Packs the temperatures as JSON**    
@@ -120,10 +120,10 @@
 >>   }
 >> }
 >> ```
-> #### [Temp.php](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/Temp.php)       
-> #### [apache2.conf](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/apache2.conf)       
-> #### [arduino_secrets.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/arduino_secrets.h)      
-> #### [ports.conf](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/ports.conf)
+> #### 📄 [Temp.php](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/Temp.php)       
+> #### 📄 [apache2.conf](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/apache2.conf)       
+> #### 📄 [arduino_secrets.h](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/arduino_secrets.h)      
+> #### 📄 [ports.conf](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/ports.conf)
 > 
 > ## \[ 2.1 \] Raspberry Pi and Arduino
 > 
