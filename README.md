@@ -3,8 +3,8 @@
 
 <b><ins>There are two efforts, broke into the separate directories</ins>:</b>    
 ### 1. 📂 [SQLite-ML-Files](https://github.com/plmcdowe/54100/tree/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/SQLite-ML-Files)
-   - This directory contains all files necessary to extend SQLite syntax for:
-   numerical outlier detection and textual sentiment analysis.
+   - This directory contains all files necessary to extend SQLite syntax for:    
+     numerical outlier detection and textual sentiment analysis.
    - SQLite-ML-Files is documented in this README first because it is the primary effort.
    - There are two implementation guides:
        1. Ubuntu desktop on a physical host
