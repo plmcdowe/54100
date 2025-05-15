@@ -52,7 +52,7 @@
 > **Connects the Arduino Giga R1 to Wifi**    
 > **Reads ambient and object temperatures**    
 > **Packs the temperatures as JSON**    
-> **Connects to the Raspberry Pi web server and publishes JSON formatted temperature readings to PHP script on Pi**    
+> **Connects to Pi web server and publishes JSON formatted temperature readings to PHP script on Pi**    
 >> ```C++
 >> #include <WiFi.h>
 >> #include <Adafruit_MLX90614.h>
