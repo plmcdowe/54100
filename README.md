@@ -8,8 +8,7 @@
    - SQLite-ML-Files is documented in this README first because it is the primary effort.
    - There are two implementation guides:
        1. Ubuntu desktop on a physical host
-       2. Virtualized Ubuntu desktop in Oracle Box.
-   - Shout out to 
+       2. Virtualized Ubuntu desktop in Oracle Box.    
 ### 2. 📂 [IOT-Arduino-Pi5](https://github.com/plmcdowe/54100/tree/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5)
    - This directory contains all files necessary to run SQLite-ML on a Raspberry Pi 5 with data from an Arduino Giga R1.
    - IOT-Arduino-Pi5 is documented after SQLite-ML-Files.
@@ -36,7 +35,7 @@
 >>> **tensorflow**    
 >
 > ## \[ 1.2 \] Ubuntu VM on Windows 11 in OracleBox
->> **<ins>Windows 11 laptop running...</ins>:**     
+>> **<ins>Windows 11 laptop running</ins>:**     
 >>> **Python 3.12.3**    
 >>> **Python 3-venv**    
 >>> **joblib**    
@@ -45,8 +44,116 @@
 >>> **pandas**    
 >>> **transformers**    
 >>> **scikit-learn**    
->>> **tensorflow**    
+>>> **tensorflow**
+> # Steps to run:  
+>> ## A. Prepare Ubuntu Desktop as bootable media on a USB:  
+>> [ *(click me if you would prefer Ubuntu's documentation)*: ](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows#3-usb-selection)
+>> ### [ *Download Ubuntu Desktop.* ](https://ubuntu.com/download/desktop/thank-you?version=24.04.1&architecture=amd64&lts=true)  
+>> ### [ *Download, then launch Rufus.* ](https://github.com/pbatard/rufus/releases/download/v4.6/rufus-4.6.exe)  
+>> ^ `Device` = *Select your **USB***  
+>> ^ `Boot Selection` =  *"Disk or ISO image"*
+>>> -- `"SELECT"` > *The Ubuntu Desktop ISO you downloaded*  
+>> ^ All other options can be left default.  
+>> ^ Click `Start` and acknowledge prompts. 
+>>    
+>> ## B. Boot & Install Ubuntu:
+>> [ *(click me if you would prefer Ubuntu's documentation)*: ](https://ubuntu.com/tutorials/install-ubuntu-desktop#4-boot-from-usb-flash-drive)    
+>> With both the external NVMe (for installation onto) and the bootable-ISO USB connected:  
+>>> b1. Reboot the Windows device - begin pressing `F12` rapidly to ensure the machine boots into a one-time boot menu.  
+>>> b2. Once in BIOS boot menu, select the bootable-ISO USB as the device to boot from.  
+>>> b3. This will begin the Ubuntu installation process.  
+>>> b4. At "Disk Setup" we selected "Manual Installation" and created the individual partions required for Ubuntu's install.  
+>>> As Ubunut's documentation shows, you *should* be able to select an external drive from the drop down menu.
+>>> 
+>>> b5. Follow the Installation prompts for options such as user creation, networking, etc.  
+>>  
+>> ## C. Apply Updates & Install Packages:  
+>>> ```Bash
+>>> sudo apt update  
+>>> sudo apt upgrade  
+>>> sudo apt install -y build-essential  
+>>> sudo apt install -y python3-pip python3.12 python3-venv python3-dev  
+>>> sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev  
+>>> sudo apt install curl  
+>>> sudo apt update  
+>>> sudo apt install sqlite3  
+>>> sudo apt install php libapache2-mod-php  
+>>> sudo apt install php-cli  
+>>> sudo apt install php-sqlite3  
+>>> sudo apt update
+>>> ```  
+>>   
+>> ## D. Set up your python venv:    
+>>> ```Bash
+>>> python3 -m venv 541v1  
+>>> source 541v1/bin/activate  
+>>> pip3 install --upgrade joblib  
+>>> pip3 install --upgrade numpy  
+>>> pip3 install --upgrade scipy  
+>>> pip3 install --upgrade pandas  
+>>> pip3 install --upgrade transformers  
+>>> pip3 install --upgrade scikit-learn  
+>>> pip3 install --upgrade tensorflow  
+>>> pip3 install --upgrade tf-keras
+>>> ```
+>> 
+>> ## **E. Download the `MAIN-3460100` directory:**    
+>>> Unzip the downloaded directory to some path on your host
+>> 
+>> ## F. Compile and Run `ml_extension` against a database:
+>>> ```Bash
+>>> cd /path/to/MAIN-3460100
+>>> source ~/541v1/bin/activate #activate the Python venv you created earlier. Modify the path as necessary!
+>>> chmod +x sqlite3  
+>>> chmod +x ml_extension.c
+>>> chmod +x ml_module.py  
+>>> gcc -fPIC -shared -o ml_extension.so ml_extension.c -I/usr/include/python3.12 -L/lib -lpython3.12 -ldl -lm -lpthread -Wl,-rpath,/lib
+>>> 
+>>> #load a databse such as one of the example databases included in the directory, or your own
+>>> ./sqlite3 database
+>>> #in the sqlite CLI send:
+>>> .load ./ml_extension  
+>>> ```
+>> ### *❗*If you use your own database:
+>>> You will need to create the `model_cache`, `table_train`, and `table_test` tables:
+>>> ```Bash
+>>> CREATE TABLE model_cache (
+>>>    model_id TEXT PRIMARY KEY,
+>>>    model_data BLOB,
+>>>    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+>>> data_type TEXT);
+>>>
+>>> ALTER TABLE readings ADD COLUMN split TEXT;
+>>>
+>>> UPDATE readings  
+>>> SET split = CASE  
+>>>    WHEN ABS(RANDOM() % 100) < 80 THEN 'train'  
+>>>    ELSE 'test'  
+>>> END; 
+>>>
+>>> CREATE TABLE table_train AS  
+>>> SELECT * FROM readings WHERE split = 'train';  
+>>>
+>>> CREATE TABLE table_test AS  
+>>> SELECT * FROM database_name WHERE split = 'test';  
+>>>
+>>> SELECT train_model('table_train', 'column1'); 
+>>> ```    
+>> ### If you use the `iot_readings1.db` included in the directory, then train and start queries:
+>>> ```Bash
+>>> SELECT train_model('readings_train', 'objectTemp');
+>>> 
+>>> #the following two queries are equivalent ways to return the object temps and timestamp for values that are outliers
+>>> SELECT objectTemp, timestamp FROM readings_test WHERE outlier(objectTemp, 0) = TRUE;
+>>> SELECT objectTemp, timestamp FROM readings_test WHERE outlier(objectTemp) < 0;
+>>>
+>>> #conversely, the next three queries will return object temps and timestamp for values that are not outliers:
+>>> SELECT objectTemp, timestamp FROM readings_test WHERE outlier(objectTemp, 0) = FALSE;
+>>> SELECT objectTemp, timestamp FROM readings_test WHERE outlier(objectTemp, 1) = TRUE;
+>>> SELECT objectTemp, timestamp FROM readings_test WHERE outlier(objectTemp) > 0;
+>>> ```
 >
+
 # \[ 2 \] IOT-Arduino-Pi5:
 > #### 📄 [541ML.ino](https://github.com/plmcdowe/54100/blob/d2fcb17aec2104accbf6aa3f85e82535e7ac0abe/IOT-Arduino-Pi5/541ML.ino)      
 > **Connects the Arduino Giga R1 to Wifi**    
